@@ -118,11 +118,38 @@ end
 global record uiLine
 end
 
+global record uiConstraint
+end
+
+global record uiLayoutBuilder
+  direction:   function(self: uiLayoutBuilder, integer): uiLayoutBuilder
+  constraints: function(self: uiLayoutBuilder, {uiConstraint}): uiLayoutBuilder
+  margin:      function(self: uiLayoutBuilder, integer): uiLayoutBuilder
+  margin_h:    function(self: uiLayoutBuilder, integer): uiLayoutBuilder
+  margin_v:    function(self: uiLayoutBuilder, integer): uiLayoutBuilder
+  split:       function(self: uiLayoutBuilder, Rect): {Rect}
+end
+
+global record uiLayoutNamespace
+  HORIZONTAL: integer
+  VERTICAL:   integer
+  metamethod __call: function(uiLayoutNamespace): uiLayoutBuilder
+end
+
+global record uiConstraintNamespace
+  Min:        function(integer): uiConstraint
+  Max:        function(integer): uiConstraint
+  Length:     function(integer): uiConstraint
+  Percentage: function(integer): uiConstraint
+  Ratio:      function(integer, integer): uiConstraint
+  Fill:       function(integer): uiConstraint
+end
+
 global record ui
   Span:       function(string): uiSpan
   Line:       function({uiSpan}): uiLine
-  Layout:     any
-  Constraint: any
+  Layout:     uiLayoutNamespace
+  Constraint: uiConstraintNamespace
 end
 
 -- Root, Header, Status (yazi rendering objects)
@@ -147,4 +174,34 @@ end
 
 global record Status
   new: function(Status, any, Tab): Status
+end
+
+-- dual-pane plugin types
+
+global record PluginState
+  cpane: integer
+  ctabs: {integer}
+  pane:  integer
+  tabs:  {integer}
+  paths: {{string:string}}
+end
+
+global enum FileMacro
+  "f" "F" "c" "C" "d" "D"
+end
+
+global enum UrlModifier
+  "" "n" "s" "e"
+end
+
+global enum ViewState
+  "dual"
+  "zoom"
+end
+
+global record Panes
+  _area:         Rect
+  _chunks:       {Rect}
+  _panes_chunks: {Rect}
+  _children:     {any}
 end
