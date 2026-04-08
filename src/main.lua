@@ -1,25 +1,8 @@
-local _tl_compat; if (tonumber((_VERSION or ''):match('[%d.]*$')) or 0) < 5.3 then local p, m = pcall(require, 'compat53.module'); if p then _tl_compat = m end end; local io = _tl_compat and _tl_compat.io or io; local string = _tl_compat and _tl_compat.string or string; local actions = require("actions")
-local utils = require("utils")
-local macros = require("macros")
+--- @sync entry
 
-local action_toggle = actions.action_toggle
-local action_toggle_zoom = actions.action_toggle_zoom
-local action_focus_next = actions.action_focus_next
-local action_copy_files = actions.action_copy_files
-local action_tab_switch = actions.action_tab_switch
-local action_tab_create = actions.action_tab_create
-local action_load_config = actions.action_load_config
-local action_save_config = actions.action_save_config
-local action_reset_config = actions.action_reset_config
-local action_shell = actions.action_shell
-local flush_state_to_async = actions.flush_state_to_async
-local load_dds_state = actions.load_dds_state
+-- The dual-pane state: nil when inactive.
+local dp = nil
 
-local parse_copy_flags = utils.parse_copy_flags
-local get_fzf_choice = utils.get_fzf_choice
-local notify_error = utils.notify_error
-local get_cwd = macros.get_cwd
-local expand_macros = macros.expand_macros
 
 
 
